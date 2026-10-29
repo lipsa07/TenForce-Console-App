@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Test_Taste_Console_Application.Domain.DataTransferObjects;
 
 namespace Test_Taste_Console_Application.Domain.Objects
@@ -15,12 +16,12 @@ namespace Test_Taste_Console_Application.Domain.Objects
             get => 0.0f;
         }
         public float AverageMoonTemp { get; set; }
+        public float AverageTemp { get; set; }
         public Planet(PlanetDto planetDto)
         {
             Id = planetDto.Id;
             SemiMajorAxis = planetDto.SemiMajorAxis;
             Moons = new Collection<Moon>();
-            AverageMoonTemp = planetDto.AvgTemp;
             if (planetDto.Moons != null)
             {
                 foreach (MoonDto moonDto in planetDto.Moons)
@@ -28,6 +29,8 @@ namespace Test_Taste_Console_Application.Domain.Objects
                     Moons.Add(new Moon(moonDto));
                 }
             }
+            AverageTemp = planetDto.AvgTemp; // planet avg temp
+            AverageMoonTemp = Moons?.Average(m => m?.AvgTemp) ?? 0.0f; // planet's moons avg temp. If no moons, return 0.0f
         }
 
         public Boolean HasMoons()

@@ -195,10 +195,10 @@ namespace Test_Taste_Console_Application.Domain.Services
                 return;
             }
 
-            var columnSizes = new[] { 20, 30 };
+            var columnSizes = new[] { 20, 30, 30 };
             var columnLabels = new[]
             {
-                OutputString.PlanetId, OutputString.PlanetMoonAverageTemp
+                OutputString.PlanetId, OutputString.PlanetAverageTemp, OutputString.PlanetMoonAverageTemp
             };
 
 
@@ -208,22 +208,22 @@ namespace Test_Taste_Console_Application.Domain.Services
             {
                 if (planet.HasMoons())
                 {
-                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"{planet.AverageMoonTemp}" }, columnSizes);
+                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"{planet.AverageTemp}", $"{planet.AverageMoonTemp}" }, columnSizes);
                 }
                 else
                 {
-                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"-" }, columnSizes);
+                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"-", $"-" }, columnSizes);
                 }
             }
 
             ConsoleWriter.CreateLine(columnSizes);
-            ConsoleWriter.CreateEmptyLines(2);
+            ConsoleWriter.CreateEmptyLines(3);
 
             /*
                 --------------------+--------------------------------------------------
-                Planet's Number     |Planet's Average Moon Temperature
+                Planet's Number     |Planet's Average Temperature |Planet's Average Moon Temperature
                 --------------------+--------------------------------------------------
-                1                   |0.0f
+                1                   |0.0f                         |0.0f
                 --------------------+--------------------------------------------------
             */
         }
