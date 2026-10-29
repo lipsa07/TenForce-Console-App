@@ -17,6 +17,7 @@ namespace Test_Taste_Console_Application.Domain.Services
             //The HTTP client is configured in the constructor.
             Client = client;
             Client.BaseAddress = new Uri(UriPath.BaseUri);
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(HttpClientSettings.Bearer, HttpClientSettings.Token);
             Client.DefaultRequestHeaders.Accept.Add(new
                 MediaTypeWithQualityHeaderValue(HttpClientSettings.JsonType));
         }
