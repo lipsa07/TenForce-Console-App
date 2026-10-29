@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
-using Newtonsoft.Json;
+using System.Threading;
 using Test_Taste_Console_Application.Constants;
 using Test_Taste_Console_Application.Domain.DataTransferObjects;
 using Test_Taste_Console_Application.Domain.DataTransferObjects.JsonObjects;
@@ -17,12 +19,21 @@ namespace Test_Taste_Console_Application.Domain.Services
     {
         private readonly HttpClientService _httpClientService;
 
+        private readonly Lazy<IReadOnlyList<Planet>> _planets;
+
         public PlanetService(HttpClientService httpClientService)
         {
             _httpClientService = httpClientService;
+            _planets = new Lazy<IReadOnlyList<Planet>>(LoadAllPlanets, LazyThreadSafetyMode.PublicationOnly);
         }
 
         public IEnumerable<Planet> GetAllPlanets()
+        {
+            return _planets.Value;
+        }
+
+        //Calling API and storing the result in a collection of Planet objects. The collection is then returned to the caller.
+        private IReadOnlyList<Planet> LoadAllPlanets()
         {
             var allPlanetsWithTheirMoons = new Collection<Planet>();
 

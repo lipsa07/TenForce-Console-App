@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using Newtonsoft.Json;
 using Test_Taste_Console_Application.Constants;
 using Test_Taste_Console_Application.Domain.DataTransferObjects;
@@ -15,13 +17,19 @@ namespace Test_Taste_Console_Application.Domain.Services
     {
         private readonly HttpClientService _httpClientService;
 
-
+        private readonly Lazy<IReadOnlyList<Moon>> _moons;
         public MoonService(HttpClientService httpClientService)
         {
             _httpClientService = httpClientService;
+            _moons = new Lazy<IReadOnlyList<Moon>>(LoadAllMoons, LazyThreadSafetyMode.PublicationOnly);
+        }
+        public IEnumerable<Moon> GetAllMoons()
+        {
+            return _moons.Value;
         }
 
-        public IEnumerable<Moon> GetAllMoons()
+        //Calling API and storing the result in a collection of Planet objects. The collection is then returned to the caller.
+        private IReadOnlyList<Moon> LoadAllMoons()
         {
             var response = _httpClientService.Client
                 .GetAsync(UriPath.GetAllMoonsWithMassQueryParameters)
