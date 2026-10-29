@@ -185,5 +185,47 @@ namespace Test_Taste_Console_Application.Domain.Services
                 --------------------+--------------------------------------------------
             */
         }
+
+        public void OutputAllPlanetsAndTheirAverageMoonTemperatureToConsole()
+        {
+            var planets = _planetService.GetAllPlanets().ToArray();
+            if (!planets.Any())
+            {
+                Console.WriteLine(OutputString.NoMoonsFound);
+                return;
+            }
+
+            var columnSizes = new[] { 20, 30 };
+            var columnLabels = new[]
+            {
+                OutputString.PlanetId, OutputString.PlanetMoonAverageTemp
+            };
+
+
+            ConsoleWriter.CreateHeader(columnLabels, columnSizes);
+
+            foreach (Planet planet in planets)
+            {
+                if (planet.HasMoons())
+                {
+                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"{planet.AverageMoonTemp}" }, columnSizes);
+                }
+                else
+                {
+                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"-" }, columnSizes);
+                }
+            }
+
+            ConsoleWriter.CreateLine(columnSizes);
+            ConsoleWriter.CreateEmptyLines(2);
+
+            /*
+                --------------------+--------------------------------------------------
+                Planet's Number     |Planet's Average Moon Temperature
+                --------------------+--------------------------------------------------
+                1                   |0.0f
+                --------------------+--------------------------------------------------
+            */
+        }
     }
 }

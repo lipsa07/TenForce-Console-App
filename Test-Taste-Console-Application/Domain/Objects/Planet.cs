@@ -14,13 +14,14 @@ namespace Test_Taste_Console_Application.Domain.Objects
         {
             get => 0.0f;
         }
-
+        public float AverageMoonTemp { get; set; }
         public Planet(PlanetDto planetDto)
         {
             Id = planetDto.Id;
             SemiMajorAxis = planetDto.SemiMajorAxis;
             Moons = new Collection<Moon>();
-            if(planetDto.Moons != null)
+            AverageMoonTemp = planetDto.AvgTemp;
+            if (planetDto.Moons != null)
             {
                 foreach (MoonDto moonDto in planetDto.Moons)
                 {
