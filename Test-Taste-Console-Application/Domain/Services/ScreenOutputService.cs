@@ -195,7 +195,7 @@ namespace Test_Taste_Console_Application.Domain.Services
                 return;
             }
 
-            var columnSizes = new[] { 20, 30, 30 };
+            var columnSizes = new[] { 20, 35, 30 };
             var columnLabels = new[]
             {
                 OutputString.PlanetId, OutputString.PlanetAverageTemp, OutputString.PlanetMoonAverageTemp
