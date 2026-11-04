@@ -15,7 +15,10 @@
         public const string NoPlanetsFound = "No planets found.";
         public const string FileCreated = "The file is created in: ";
         public const string FolderCreated = "The folder is created in: ";
-        public const string PlanetAverageTemp = "The Planet's Average Temperature";
         public const string PlanetMoonAverageTemp = "The Planet's Average Moon Temperature";
+        public const string LoadingData = "Loading data...";
+        public const string DataLoaded = "Data loaded.";
+        public const string MappingMoonsToPlanets = "Mapping moons to planets started...";
+        public const string MappedMoonsToPlanets = "Mapped {0} moons.";
     }
 }

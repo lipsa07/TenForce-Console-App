@@ -15,8 +15,7 @@ namespace Test_Taste_Console_Application.Domain.Objects
         {
             get => 0.0f;
         }
-        public float AverageMoonTemp { get; set; }
-        public float AverageTemp { get; set; }
+        public float AverageMoonTemp { get => GetAverageMoonTemperature(); }
         public Planet(PlanetDto planetDto)
         {
             Id = planetDto.Id;
@@ -29,13 +28,25 @@ namespace Test_Taste_Console_Application.Domain.Objects
                     Moons.Add(new Moon(moonDto));
                 }
             }
-            AverageTemp = planetDto.AvgTemp; // planet avg temp
-            AverageMoonTemp = Moons?.Average(m => m?.AvgTemp) ?? 0.0f; // planet's moons avg temp. If no moons, return 0.0f
         }
 
         public Boolean HasMoons()
         {
             return (Moons != null && Moons.Count > 0);
+        }    
+
+        public float GetAverageMoonTemperature()
+        {
+            if (!HasMoons())
+            {
+                return 0.0f;
+            }
+            float totalTemperature = 0.0f;
+            foreach (var moon in Moons)
+            {
+                totalTemperature += moon.AvgTemp;
+            }
+            return totalTemperature / Moons.Count;
         }
     }
 }
