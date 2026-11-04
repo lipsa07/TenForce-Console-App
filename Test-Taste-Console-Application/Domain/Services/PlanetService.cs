@@ -36,7 +36,7 @@ namespace Test_Taste_Console_Application.Domain.Services
         private IReadOnlyList<Planet> LoadAllPlanets()
         {
             var allPlanetsWithTheirMoons = new Collection<Planet>();
-
+            Console.WriteLine(OutputString.LoadingData);
             var response = _httpClientService.Client
                 .GetAsync(UriPath.GetAllPlanetsWithMoonsQueryParameters)
                 .Result;
@@ -47,7 +47,7 @@ namespace Test_Taste_Console_Application.Domain.Services
                 Logger.Instance.Warn($"{LoggerMessage.GetRequestFailed}{response.StatusCode}");
                 return allPlanetsWithTheirMoons;
             }
-
+            Console.WriteLine(OutputString.DataLoaded);
             var content = response.Content.ReadAsStringAsync().Result;
 
             //The JSON converter uses DTO's, that can be found in the DataTransferObjects folder, to deserialize the response content.
@@ -56,6 +56,7 @@ namespace Test_Taste_Console_Application.Domain.Services
             //The JSON converter can return a null object. 
             if (results == null) return allPlanetsWithTheirMoons;
 
+            Console.WriteLine(OutputString.MappingMoonsToPlanets);
             //If the planet doesn't have any moons, then it isn't added to the collection.
             foreach (var planet in results.Bodies)
             {
@@ -71,7 +72,7 @@ namespace Test_Taste_Console_Application.Domain.Services
                         newMoonsCollection.Add(JsonConvert.DeserializeObject<MoonDto>(moonContent));
                     }
                     planet.Moons = newMoonsCollection;
-
+                    Console.WriteLine(string.Format(OutputString.MappedMoonsToPlanets, planet.Id));
                 }
                 allPlanetsWithTheirMoons.Add(new Planet(planet));
             }
